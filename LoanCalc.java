@@ -29,8 +29,14 @@ public class LoanCalc {
 	// interest rate (as a percentage), the number of periods (n), and the periodical payment.
 	private static double endBalance(double loan, double rate, int n, double payment) {	
 		// Replace the following statement with your code
-		return 0;
-	}
+		double balance = loan;
+		for (int i=0; i<n ; i++){
+			  balance -= payment;
+			  balance = balance * (1+ rate/100);
+		}
+		return balance;
+		}
+	
 	
 	// Uses sequential search to compute an approximation of the periodical payment
 	// that will bring the ending balance of a loan close to 0.
@@ -39,8 +45,16 @@ public class LoanCalc {
 	// Side effect: modifies the class variable iterationCounter.
     public static double bruteForceSolver(double loan, double rate, int n, double epsilon) {
 		// Replace the following statement with your code
-		return 0;
-    }
+	iterationCounter=0;
+	double g = loan/n;
+	double Bal = endBalance(loan, rate, n, g);
+	while (Bal > 0){
+		g += epsilon;
+	Bal = endBalance(loan, rate, n, g);
+	iterationCounter++;
+	}
+		return g;
+}
     
     // Uses bisection search to compute an approximation of the periodical payment 
 	// that will bring the ending balance of a loan close to 0.
@@ -48,7 +62,24 @@ public class LoanCalc {
 	// the number of periods (n), and epsilon, the approximation's accuracy
 	// Side effect: modifies the class variable iterationCounter.
     public static double bisectionSolver(double loan, double rate, int n, double epsilon) {  
-        // Replace the following statement with your code
-		return 0;
+       // Replace the following statement with your code
+	 iterationCounter =0;
+	 double L = loan/n;
+	 double H = loan;
+	 double Mid = 0;
+	 double balanceMid= 0;
+	while ((H-L) > epsilon){
+       Mid = (L + H) / 2.0;
+	   balanceMid = endBalance(loan, rate, n, Mid);
+	if  (balanceMid>0){
+		L = Mid;
+	}
+	else {
+		H= Mid;
+	}
+	iterationCounter++;
+	}
+		return (L+H)/2.0;
+
     }
 }
